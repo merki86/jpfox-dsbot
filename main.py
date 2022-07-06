@@ -5,24 +5,25 @@ import requests
 import json
 import asyncio
 
-config = {
-    'token': 'OTkzODUyNzYwOTk2OTg2OTcw.GuggJw.QBi2wH0cDtOWGMhUym8pMxlfs82wcdT1aeupjM',
-    'prefix': '?',
-}
+from configs import config
 
 botColor = 0x503f59 # dark purple
 
 bot = commands.Bot(command_prefix=config['prefix'])
+
+@bot.event
+async def on_ready():
+         await bot.change_presence( status = discord.Status.online, activity = discord.Game("https://minikaitsu.github.io"))
 
 @bot.command()
 async def инфо(ctx):
     if ctx.author != bot.user:
         embed = discord.Embed( title = 'О боте и его создателях:', color = botColor)
         embed.description = f"""Я — Мифическая девятихвостая Лисица по имени Миникайцу, из рода Кицунэ родом из Японии. По фольклёру мы обладаем большими знаниями о мире и очень милы!
-                                Но всё же, я тут — чтобы помогать вам следить за порядком на сервере! Меня необязательно настраивать, не переживайте, просто расслабьтесь и занимайтесь своими делами.
-                                Для ознакомления с ботом воспользуйтесь функцией `?помощь`.
-                                Если же у вас возникли проблемы с ботом, вы можете обратиться с проблемой написав в лс seltfox#2356 или на наш сервер(Ссылка в профиле бота).
-                                SeltFox (c)2022, версия бота v.1.1 - дата: 06.07.2022. (Не является коммерческим проектом и никак не монитизируется!)"""
+        Но всё же, я тут — чтобы помогать вам следить за порядком на сервере! Меня необязательно настраивать, не переживайте, просто расслабьтесь и занимайтесь своими делами.
+        Для ознакомления с ботом воспользуйтесь функцией `?помощь`.
+        Если же у вас возникли проблемы с ботом, вы можете обратиться с проблемой написав в лс seltfox#2356 или на наш сервер(Ссылка в профиле бота).
+        SeltFox (c)2022, версия бота v.1.1 - дата: 06.07.2022. (Не является коммерческим проектом и никак не монитизируется!)"""
         embed.set_footer(text = f'Действие выполнено: {ctx.author.name}', icon_url = ctx.author.avatar_url)
         await ctx.send(embed = embed)
 
