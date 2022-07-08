@@ -5,6 +5,7 @@
 # DO NOT USE THE CODE IN COMMERCIAL PROJECTS.
 # Owner: seltfox#2356.
 
+from dis import dis
 import discord
 from discord.ext import commands
 
@@ -70,11 +71,11 @@ if __name__ == "__main__":
 
     @bot.command()
     @commands.has_permissions(administrator=True)
-    async def кик(ctx, user : discord.User(), *arg, reason='Причина не указана'):
-        await bot.kick(user)
+    async def кик(ctx, kikuser: discord.Member, reason='Причина не указана'):
+        await kikuser.kick(reason=f"{reason}. {ctx.author.name}.")
 
         embed = discord.Embed( title = 'Участник был кикнут!', color = botColor)
-        embed.description = f"""Участника {user} изгнали с сервера!"""
+        embed.description = f"""Участника {kikuser} изгнали с сервера!\nПричина выдачи: {reason}"""
         embed.set_footer(text = f'Действие выполнено: {ctx.author.name}', icon_url = ctx.author.avatar_url)
         await ctx.send(embed = embed)
 
