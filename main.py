@@ -27,20 +27,23 @@ if __name__ == "__main__":
     async def on_ready():
         await bot.change_presence( status = discord.Status.online, activity = discord.Game("https://nikatsubot.github.io"))
 
-    @bot.command()
-    @commands.has_permissions(administrator=True)
-    async def создатьмр(ctx):
-        global ROLE_MUTED
-        guild = ctx.guild
-        perms = discord.Permissions(2048) # send messages
-        mrole = await guild.create_role(name="Мьют (NB)")
-        await mrole.edit(permissions=perms)
-        ROLE_MUTED = mrole.id
-        await ctx.send(f"Роль мьюта бота успешно создана. ID: {ROLE_MUTED}")
+    #@bot.command()
+    #@commands.has_permissions(administrator=True)
+    #async def создатьмр(ctx):
+    #    global ROLE_MUTED
+    #    guild = ctx.guild
+    #    perms = discord.Permissions(2048) # send messages
+    #    mrole = await guild.create_role(name="Мьют (NB)")
+    #    await mrole.edit(permissions=perms)
+    #    ROLE_MUTED = mrole.id
+    #    await ctx.send(f"Роль мьюта бота успешно создана. ID: {ROLE_MUTED}")
 
     @bot.command()
     @commands.has_permissions(administrator=True) # timeout_members from ds
     async def мьют(ctx, user: discord.Member, time: int,*, reason="Причина не указана"):
+        global ROLE_MUTED
+        ROLE_MUTED = discord.utils.get(ctx.message.guild.roles, name="NBMUTE")
+
         role = user.guild.get_role(ROLE_MUTED) # айди роли мьюта которую будет получать юзер
 
         embed = discord.Embed( title = 'Участник был замьючен!', color = botColor)
@@ -54,6 +57,9 @@ if __name__ == "__main__":
     @bot.command()
     @commands.has_permissions(administrator=True)
     async def размьют(ctx, user: discord.Member):
+        global ROLE_MUTED
+        ROLE_MUTED = discord.utils.get(ctx.message.guild.roles, name="NBMUTE")
+
         role = user.guild.get_role(ROLE_MUTED) # айди роли мьюта которую будет получать юзер
 
         embed = discord.Embed( title = 'Участник был размьючен!', color = botColor)
@@ -62,6 +68,15 @@ if __name__ == "__main__":
         await ctx.send(embed = embed)
         await user.remove_roles(role) #снимает мьют роль
 
+    @bot.command()
+    @commands.has_permissions(administrator=True)
+    async def кик(ctx, user : discord.User(), *arg, reason='Причина не указана'):
+        await bot.kick(user)
+
+        embed = discord.Embed( title = 'Участник был кикнут!', color = botColor)
+        embed.description = f"""Участника {user} изгнали с сервера!"""
+        embed.set_footer(text = f'Действие выполнено: {ctx.author.name}', icon_url = ctx.author.avatar_url)
+        await ctx.send(embed = embed)
 
     @bot.event
     async def on_guild_join(guild):
@@ -73,7 +88,11 @@ if __name__ == "__main__":
 
     @bot.command()
     async def статус(ctx):
-        await updateScripts.статус(ctx)
+        if ctx.author != bot.user:
+            embed = discord.Embed( title = 'Статус Бота:', color = botColor)
+            embed.description = f"Статус: `Бот в рабочем состоянии.`\nКоличество серверов где есть я: {str(len(bot.guilds))}"
+            embed.set_footer(text = f'Действие выполнено: {ctx.author.name}', icon_url = ctx.author.avatar_url)
+            await ctx.send(embed = embed)
 
     @bot.command()
     async def лис(ctx):
