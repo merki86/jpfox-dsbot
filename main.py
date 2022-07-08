@@ -1,7 +1,7 @@
 # SELTFOX (c) 2022, All rights reserved.
-# Minikaitsu bot, kernel file.
+# Nikatsu bot, kernel file.
 # 
-# v.1.4
+#
 # DO NOT USE THE CODE IN COMMERCIAL PROJECTS.
 # Owner: seltfox#2356.
 
@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
     @bot.event
     async def on_ready():
-        await bot.change_presence( status = discord.Status.online, activity = discord.Game("https://minikaitsu.github.io"))
+        await bot.change_presence( status = discord.Status.online, activity = discord.Game("https://nikatsubot.github.io"))
 
     @bot.command()
     @commands.has_permissions(administrator=True)
@@ -33,7 +33,7 @@ if __name__ == "__main__":
         global ROLE_MUTED
         guild = ctx.guild
         perms = discord.Permissions(2048) # send messages
-        mrole = await guild.create_role(name="Мьют (MB)")
+        mrole = await guild.create_role(name="Мьют (NB)")
         await mrole.edit(permissions=perms)
         ROLE_MUTED = mrole.id
         await ctx.send(f"Роль мьюта бота успешно создана. ID: {ROLE_MUTED}")
