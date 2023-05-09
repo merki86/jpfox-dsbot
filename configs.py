@@ -1,4 +1,4 @@
 config = {
-    'token': 'OTkzODUyNzYwOTk2OTg2OTcw.GuggJw.QBi2wH0cDtOWGMhUym8pMxlfs82wcdT1aeupjM',
+    'token': 'https://www.youtube.com/watch?v=rg6fQMLB8Tk&ab_channel=LynfinityMusic',
     'prefix': '?',
 }
